@@ -1,0 +1,307 @@
+
+
+/* Grid Styles */
+.grid-container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px; /* Limit max width for larger screens */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  grid-template-areas: 
+    "timer-container current-task-container"
+    "timer-container timer-msg-container";
+}
+
+.grid-container.focus-mode {
+  grid-template-areas: "timer-container timer-container";
+}
+
+/* Focus Mode Styles */
+.grid-container.focus-mode {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "timer-container"
+    "current-task-container"
+    "timer-msg-container";
+}
+
+.focus-mode .current-task-container {
+  grid-area: current-task-container;
+  display: none; /* Hide current task container in focus mode */
+}
+
+.focus-mode .timer-msg-container {
+  grid-area: timer-msg-container;
+  display: none; /* Hide timer message container in focus mode */
+}
+
+.timer-container.focus-mode {
+  grid-area: timer-container;
+  width: 100%; /* Full width in focus mode */
+  height: 100%; /* Full height in focus mode */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Current Task Styles */
+.current-task-container {
+  grid-area: current-task-container;
+  background: var(--color-1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Timer Message Styles */
+.timer-msg-container {
+  grid-area: timer-msg-container;
+  background: var(--color-1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-step-msg {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0;
+}
+
+.timer-step-msg span {
+  color: var(--accent-color);
+}
+
+/* Timer Styles */
+.timer-container {
+  grid-area: timer-container;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--color-1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.timer-type-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.timer-type-selection button {
+  background-color: var(--color-2);
+  border: none;
+  color: var(--text-color);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.timer-type-selection button.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.circular-progress {
+  position: relative;
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--accent-color) 0deg,
+    var(--color-2) 0deg
+  );
+  background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular-progress::before {
+  content: "";
+  position: absolute;
+  height: 210px;
+  width: 210px;
+  border-radius: 50%;
+  background-color: var(--color-1);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+}
+
+.timer {
+  position: relative;
+  font-size: 4.5rem;
+  font-family: Ubuntu Mono, monospace;
+  color: var(--accent-color);
+}
+
+.timer-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.start-timer-btn, .pause-timer-btn, .focus-mode-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.fast-forward-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.fast-forward-btn svg {
+  fill: var(--text-color);
+}
+
+.fast-forward-btn:hover svg {
+  fill: var(--accent-color);
+  transition: fill 0.15s ease;
+}
+
+.start-timer-btn svg, .pause-timer-btn svg {
+  fill: #ffffff;
+}
+
+.start-timer-btn:hover, .pause-timer-btn:hover, .timer-type-selection button:hover, .focus-mode-btn:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "timer-container"
+      "timer-msg-container"
+      "current-task-container";
+  }
+  .timer-container {
+    padding: 10px;
+    gap: 10px;
+    height: auto; /* Allow height to adjust based on content */
+    width: 100%;
+  }
+  .task-container {
+    width: 100%; /* Full width on small screens */
+    padding: 10px;
+    gap: 10px;
+  }
+  .timer-msg-container {
+    padding: 10px;
+    gap: 10px;
+  }
+  .timer-step-msg {
+    font-size: 0.9rem; /* Smaller font size for small screens */
+    text-align: center;
+  }
+  .task {
+    width: 100%; /* Full width for current task on small screens */
+    gap: 10px;
+  }
+  .task-information {
+    width: 75%; /* Full width for task information on small screens */
+    gap: 5px;
+  }
+  .pomodoro-progress-circle {
+    height: 60px;
+    width: 60px;
+  }
+  .pomodoro-progress-circle::before {
+    height: 55px;
+    width: 55px;
+  }
+  body {
+    font-size: 0.875rem;
+  }
+  h2, .timer-step-msg {
+    font-size: 1.25rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+  .circular-progress {
+    height: 150px;
+    width: 150px;
+  }
+  .circular-progress::before {
+    height: 130px;
+    width: 130px;
+  }
+  .timer {
+    font-size: 2.5rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "timer-container"
+      "timer-msg-container"
+      "current-task-container";
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "timer-container current-task-container"
+      "timer-container timer-msg-container";
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "timer-container current-task-container"
+      "timer-container timer-msg-container";
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}
