@@ -7,7 +7,16 @@
   --dark-color-1: #1a1a1a; 
   --dark-color-2: #202020;  
   --light-color-1: #ffffff; 
-  --light-color-2: #ececec; 
+  --light-color-2: #ececec;
+
+  accents
+  --#f66262: red
+  --#25cfe5: blue
+  --#682ce0: purple
+  --#c76bdc: pink
+  --#4cb426: green
+  --#e18d16: orange
+
   */
   --text-color: #000000;
   --accent-color: #f66262;
