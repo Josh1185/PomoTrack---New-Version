@@ -71,7 +71,7 @@
   border: none;
   outline: none;
   font-family: 'Poppins', sans-serif;
-  color: var(--text-color)
+  color: var(--text-color);
 }
 
 .task-form-controls {

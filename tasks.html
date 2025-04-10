@@ -16,10 +16,35 @@
     <div class="modal">
       <h2 class="modal-header">Are you sure you would like to delete "CSC229 HW"?</h2>
       <div class="modal-controls">
-        <button class="confirm-btn">Confirm</button>
-        <button class="cancel-btn">Cancel</button>
+        <button type="button" class="confirm-btn">Confirm</button>
+        <button type="button" class="cancel-btn">Cancel</button>
       </div>
     </div>
+
+    <form class="edit-task-form">
+      <div class="inputs-container">
+        <div class="input-box">
+          <input type="text" class="edit-task-title-input" required>
+          <label>Title</label>
+        </div>
+        <div class="input-box">
+          <input class="edit-task-desc-input" required>
+          <label>Description</label>
+        </div>
+        <div class="input-box">
+          <input type="number" class="edit-task-approx-pomodoros-input" min="1"  required>
+          <label>Aproximate Pomodoros</label>
+        </div>
+      </div>
+      <div class="edit-task-form-controls">
+        <button type="button" class="confirm-edit-btn">
+          Confirm changes
+        </button>
+        <button type="button" class="cancel-edit-btn">
+          Cancel changes
+        </button>
+      </div>
+    </form>
   </div>
 
   <header>
@@ -93,7 +118,7 @@
           <button type="submit" class="add-task-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px"><path d="M444-444H240v-72h204v-204h72v204h204v72H516v204h-72v-204Z"/></svg>
           </button>
-          <button type="clear" class="clear-task-add-btn">
+          <button type="reset" class="clear-task-add-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px"><path d="m339-288 141-141 141 141 51-51-141-141 141-141-51-51-141 141-141-141-51 51 141 141-141 141 51 51ZM480-96q-79 0-149-30t-122.5-82.5Q156-261 126-331T96-480q0-80 30-149.5t82.5-122Q261-804 331-834t149-30q80 0 149.5 30t122 82.5Q804-699 834-629.5T864-480q0 79-30 149t-82.5 122.5Q699-156 629.5-126T480-96Zm0-72q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0-312Z"/></svg>
           </button>
         </div>
@@ -101,107 +126,20 @@
     </div>
 
     <div class="current-task-container">
-      <!--
-      <h2>Current Task</h2>
-      <div class="task">
-        <div class="pomodoro-progress-circle">
-          <span class="pomodoro-progress">6/8</span>
-        </div>
-
-        <div class="task-information">
-          <h3 class="task-title">CSC229 HW</h3>
-          <p class="task-description">Time & Space Complexity, Asymptotic Analysis</p>
-          <div class="task-controls">
-            <button class="edit-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" ><path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z"/></svg>
-            </button>
-            <button class="delete-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z"/></svg>
-            </button>
-            <button class="mark-task-as-complete-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="m429-336 238-237-51-51-187 186-85-84-51 51 136 135ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      -->
+      
     </div>
   </div>
 
   <div class="task-list-container">
     <h2>Task List</h2>
     <div class="task-list">
-      <!--
-      <div class="task">
-        <div class="pomodoro-progress-circle">
-          <span class="pomodoro-progress">6/8</span>
-        </div>
-
-        <div class="task-information">
-          <h3 class="task-title">CSC229 HW</h3>
-          <p class="task-description">Time & Space Complexity, Asymptotic Analysis</p>
-          <div class="task-controls">
-            <button class="edit-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" ><path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z"/></svg>
-            </button>
-            <button class="delete-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z"/></svg>
-            </button>
-            <button class="mark-task-as-complete-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="m429-336 238-237-51-51-187 186-85-84-51 51 136 135ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="task">
-        <div class="pomodoro-progress-circle">
-          <span class="pomodoro-progress">6/8</span>
-        </div>
-
-        <div class="task-information">
-          <h3 class="task-title">CSC229 HW</h3>
-          <p class="task-description">Time & Space Complexity, Asymptotic Analysis</p>
-          <div class="task-controls">
-            <button class="edit-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" ><path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z"/></svg>
-            </button>
-            <button class="delete-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z"/></svg>
-            </button>
-            <button class="mark-task-as-complete-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="m429-336 238-237-51-51-187 186-85-84-51 51 136 135ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="task">
-        <div class="pomodoro-progress-circle">
-          <span class="pomodoro-progress">6/8</span>
-        </div>
-
-        <div class="task-information">
-          <h3 class="task-title">CSC229 HW</h3>
-          <p class="task-description">Time & Space Complexity, Asymptotic Analysis</p>
-          <div class="task-controls">
-            <button class="edit-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" ><path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z"/></svg>
-            </button>
-            <button class="delete-task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z"/></svg>
-            </button>
-            <button class="mark-task-as-complete-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="m429-336 238-237-51-51-187 186-85-84-51 51 136 135ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    -->
+  
     </div>
   </div>
 
+  <script type="module" src="scripts/tasks/task-elements.js"></script>
   <script type="module" src="scripts/general/modal.js"></script>
   <script type="module" src="scripts/tasks/task-storage.js"></script>
-  <script type="module" src="scripts/tasks/task-elements.js"></script>
   <script type="module" src="scripts/tasks/task-rendering.js"></script>
   <script type="module" src="scripts/tasks/task-actions.js"></script>
 </body>

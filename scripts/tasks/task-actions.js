@@ -1,7 +1,12 @@
-import { taskList, currentTask, saveToStorage, getTaskIdCounter, incrementTaskIdCounter } from './task-storage.js';
-import { renderTaskList } from './task-rendering.js';
-import { taskTitleInput, taskDescInput, taskApproxPomodorosInput, addTaskBtn, addTaskForm } from './task-elements.js';
-import { modalToggle, modalText, confirmBtn, cancelBtn, cancelBtnHandler } from '../general/modal.js';
+import { taskList, currentTask, saveToStorage, getTaskIdCounter, incrementTaskIdCounter, insertCurrentTaskData, removeCurrentTaskData } from './task-storage.js';
+import { renderTaskList, renderCurrentTask } from './task-rendering.js';
+import { taskTitleInput, taskDescInput, taskApproxPomodorosInput, addTaskForm, addTaskBtn } from './task-elements.js';
+import { modalToggle, modalText, confirmBtn, cancelBtn, cancelBtnHandler, modalPopUp, editTaskForm, cancelEditBtn, confirmEditBtn, editApproxPomodorosInput, editTaskDescInput, editTaskTitleInput } from '../general/modal.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTaskList();
+  renderCurrentTask();
+});
 
 export function addTask() {
   const title = taskTitleInput.value;
@@ -35,22 +40,22 @@ export function clearTaskList() {
 
 let taskToDeleteIndex = null;
 
-export function deleteTask(index) {
+export function deleteTask(id) {
+  const index = taskList.findIndex(task => task.id === id);
+
   taskToDeleteIndex = index;
   modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
   modalText.innerHTML = `Are you sure you want to delete "<span>${taskList[index].title}</span>"?`;
-  console.log('task to delete: ', taskToDeleteIndex);
-  console.log('task list before: ', taskList);
 
   function confirmDelete() {
-    /* if (taskList[index].isCurrentTask) { // If the task is current, clear the current task
-      currentTask = {};
-    } */
+    // Add current task functionality
     if (taskToDeleteIndex !== null) {
       taskList.splice(taskToDeleteIndex, 1);
       saveToStorage();
       renderTaskList();
       modalToggle.style.display = 'none';
+      modalPopUp.style.display = 'none';
       taskToDeleteIndex = null;
 
       confirmBtn.removeEventListener('click', confirmDelete);
@@ -61,20 +66,66 @@ export function deleteTask(index) {
   cancelBtn.addEventListener('click', () => {
     taskToDeleteIndex = null;
     cancelBtnHandler();
+    confirmBtn.removeEventListener('click', confirmDelete);
   });
 }
 
-export function editTask(index) {
-  console.log('Editing task...'); // Make an edit task modal
+export function editTask(id) {
+  const index = taskList.findIndex(task => task.id === id);
+  
+  modalToggle.style.display = 'block';
+  editTaskForm.style.display = 'block';
+  editTaskForm.addEventListener('submit', e => e.preventDefault());
+
+  editTaskTitleInput.value = taskList[index].title;
+  editTaskDescInput.value = taskList[index].description;
+  editApproxPomodorosInput.value = taskList[index].approxPomodoros;
+
+  function confirmEdit() {
+
+    const newTitle = editTaskTitleInput.value;
+    const newDescription = editTaskDescInput.value;
+    const newApproxPomodoros = Number(editApproxPomodorosInput.value);
+
+    if (newTitle && newDescription && newApproxPomodoros > 0 && !isNaN(newApproxPomodoros)) {
+
+      taskList[index].title = newTitle;
+      taskList[index].description = newDescription;
+      taskList[index].approxPomodoros = newApproxPomodoros;
+      saveToStorage();
+      renderTaskList();
+
+      editTaskForm.reset();
+      modalToggle.style.display = 'none';
+      editTaskForm.style.display = 'none';
+
+      confirmEditBtn.removeEventListener('click', confirmEdit);
+      editTaskForm.removeEventListener('submit', e => e.preventDefault());
+    } else {
+      alert('Please fill in all fields correctly.');
+    }
+  }
+
+  confirmEditBtn.addEventListener('click', confirmEdit);
+  cancelEditBtn.addEventListener('click', () => {
+    modalToggle.style.display = 'none';
+    editTaskForm.style.display = 'none';
+    confirmEditBtn.removeEventListener('click', confirmEdit);
+    editTaskForm.removeEventListener('submit', e => e.preventDefault());
+  });
 }
 
-export function markTaskAsComplete(index) {
+export function markTaskAsComplete(id) {
+  const index = taskList.findIndex(task => task.id === id);
+
   modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
   modalText.innerHTML = `Are you sure you want to mark "<span>${taskList[index].title}</span>" as complete?`;
 
   confirmBtn.addEventListener('click', () => {
     // Code to mark task as complete
     modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
   });
 
   cancelBtn.addEventListener('click', () => {
@@ -82,13 +133,167 @@ export function markTaskAsComplete(index) {
   });
 }
 
-export function markTaskAsCurrent(index) {
+export function markTaskAsCurrent(id) {
+
   modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
+
+  const index = taskList.findIndex(task => task.id === id);
   modalText.innerHTML = `Are you sure you want to pin "<span>${taskList[index].title}</span>" as your current task?`;
+  confirmBtn.addEventListener('click', confirmTaskPinnedAsCurrent);
+
+  cancelBtn.addEventListener('click', () => {
+    cancelBtnHandler();
+  });
+
+  function confirmTaskPinnedAsCurrent() {
+
+    const index = taskList.findIndex(task => task.id === id);
+
+    if (currentTask.id) { // If there is a current task, push it back to the task list
+      taskList.push({
+        id: currentTask.id,
+        title: currentTask.title,
+        description: currentTask.description,
+        approxPomodoros: currentTask.approxPomodoros,
+        actualPomodoros: currentTask.actualPomodoros,
+        isCurrentTask: false,
+        creationDate: currentTask.creationDate
+      });
+
+      removeCurrentTaskData();
+    }
+
+    insertCurrentTaskData(
+      taskList[index].id,
+      taskList[index].title,
+      taskList[index].description,
+      taskList[index].approxPomodoros,
+      taskList[index].actualPomodoros,
+      true,
+      taskList[index].creationDate,
+      index
+    );
+
+    taskList.splice(index, 1);
+
+    renderTaskList();
+    saveToStorage();
+    renderCurrentTask();
+
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+    confirmBtn.removeEventListener('click', confirmTaskPinnedAsCurrent);
+  }
+}
+
+export function unpinCurrentTask() {
+  modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
+
+  modalText.innerHTML = `Are you sure you want to unpin "<span>${currentTask.title}</span>" from your current task slot?`;
+  confirmBtn.addEventListener('click', confirmUnpinCurrentTask);
+
+  cancelBtn.addEventListener('click', () => {
+    cancelBtnHandler();
+  });
+
+  function confirmUnpinCurrentTask() {
+
+    taskList.push({
+      id: currentTask.id,
+      title: currentTask.title,
+      description: currentTask.description,
+      approxPomodoros: currentTask.approxPomodoros,
+      actualPomodoros: currentTask.actualPomodoros,
+      isCurrentTask: false,
+      creationDate: currentTask.creationDate
+    });
+
+    removeCurrentTaskData();
+    saveToStorage();
+    renderTaskList();
+    renderCurrentTask();
+  
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+    confirmBtn.removeEventListener('click', confirmUnpinCurrentTask);
+  }
+}
+
+export function editCurrentTask() {
+  modalToggle.style.display = 'block';
+  editTaskForm.style.display = 'block';
+  editTaskForm.addEventListener('submit', e => e.preventDefault());
+
+  editTaskTitleInput.value = currentTask.title;
+  editTaskDescInput.value = currentTask.description;
+  editApproxPomodorosInput.value = currentTask.approxPomodoros;
+
+  function confirmEditCurrentTask() {
+    const newTitle = editTaskTitleInput.value;
+    const newDescription = editTaskDescInput.value;
+    const newApproxPomodoros = Number(editApproxPomodorosInput.value);
+
+    if (newTitle && newDescription && newApproxPomodoros > 0 && !isNaN(newApproxPomodoros)) {
+      currentTask.title = newTitle;
+      currentTask.description = newDescription;
+      currentTask.approxPomodoros = newApproxPomodoros;
+      saveToStorage();
+      renderCurrentTask();
+
+      editTaskForm.reset();
+      modalToggle.style.display = 'none';
+      editTaskForm.style.display = 'none';
+
+      confirmEditBtn.removeEventListener('click', confirmEditCurrentTask);
+      editTaskForm.removeEventListener('submit', e => e.preventDefault());
+    } else {
+      alert('Please fill in all fields correctly.');
+    }
+  }
+
+  confirmEditBtn.addEventListener('click', confirmEditCurrentTask);
+  cancelEditBtn.addEventListener('click', () => {
+    modalToggle.style.display = 'none';
+    editTaskForm.style.display = 'none';
+    confirmEditBtn.removeEventListener('click', confirmEditCurrentTask);
+    editTaskForm.removeEventListener('submit', e => e.preventDefault());
+  });
+}
+
+export function deleteCurrentTask() {
+  modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
+
+  modalText.innerHTML = `Are you sure you want to delete "<span>${currentTask.title}</span>"?`;
+  confirmBtn.addEventListener('click', confirmDeleteCurrentTask);
+
+  cancelBtn.addEventListener('click', () => {
+    cancelBtnHandler();
+  });
+
+  function confirmDeleteCurrentTask() {
+    removeCurrentTaskData();
+    saveToStorage();
+    renderTaskList();
+    renderCurrentTask();
+
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+    confirmBtn.removeEventListener('click', confirmDeleteCurrentTask);
+  }
+}
+
+export function markCurrentTaskAsComplete() {
+  modalToggle.style.display = 'block';
+  modalPopUp.style.display = 'block';
+  modalText.innerHTML = `Are you sure you want to mark "<span>${currentTask.title}</span>" as complete?`;
 
   confirmBtn.addEventListener('click', () => {
     // Code to mark task as complete
     modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
   });
 
   cancelBtn.addEventListener('click', () => {

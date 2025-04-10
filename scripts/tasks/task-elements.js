@@ -9,11 +9,7 @@ export const taskTitleInput = document.querySelector('.task-title-input');
 export const taskDescInput = document.querySelector('.task-desc-input');
 export const taskApproxPomodorosInput = document.querySelector('.task-approx-pomodoros-input');
 
-
-addTaskBtn.addEventListener('click', () => {
+addTaskForm.addEventListener('submit', e => {
+  e.preventDefault();
   addTask();
-});
-
-addTaskForm.addEventListener('submit', event => {
-  event.preventDefault();
 });

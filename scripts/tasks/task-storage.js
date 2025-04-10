@@ -13,6 +13,24 @@ export function getTaskIdCounter() {
   return taskIdCounter;
 }
 
+export function insertCurrentTaskData(id, title, description, approxPomodoros, actualPomodoros, isCurrentTask, creationDate) {
+  currentTask = {
+    id,
+    title,
+    description,
+    approxPomodoros,
+    actualPomodoros,
+    isCurrentTask,
+    creationDate
+  };
+  saveToStorage();
+}
+
+export function removeCurrentTaskData() {
+  currentTask = {};
+  saveToStorage();
+}
+
 export function saveToStorage() {
   localStorage.setItem('taskList', JSON.stringify(taskList));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
