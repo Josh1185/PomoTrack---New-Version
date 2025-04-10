@@ -43,9 +43,9 @@ export function renderTaskList() {
   `;
 
   let taskListHTML = "";
-  taskList.forEach(task => {
+  taskList.forEach((task, index) => {
     taskListHTML += `
-      <div class="task">
+      <div class="task" data-index="${index}">
         <div class="pomodoro-progress-circle" style="background: conic-gradient(
           var(--accent-color) ${(task.actualPomodoros / task.approxPomodoros) * 360}deg,
           var(--color-2) 0deg
@@ -74,24 +74,30 @@ export function renderTaskList() {
 
   taskListContainer.innerHTML = taskListHTML;
 
-  document.querySelectorAll('.task').forEach(task => {
+  document.querySelectorAll('.task').forEach((task, index) => {
     task.addEventListener('click', event => {
       // Check if the clicked element is a button
       if (event.target.closest("button")) return;
 
-      markTaskAsCurrent();
+      markTaskAsCurrent(index);
     });
   });
 
-  document.querySelectorAll(".edit-task-btn").forEach(editTaskBtn => {
-    editTaskBtn.addEventListener('click', editTask);
+  document.querySelectorAll(".edit-task-btn").forEach((editTaskBtn, index) => {
+    editTaskBtn.addEventListener('click', () => {
+      editTask(index);
+    });
   });
 
-  document.querySelectorAll(".delete-task-btn").forEach(deleteTaskBtn => {
-    deleteTaskBtn.addEventListener('click', deleteTask);
+  document.querySelectorAll(".delete-task-btn").forEach((deleteTaskBtn, index) => {
+    deleteTaskBtn.addEventListener('click', () => {
+      deleteTask(index);
+    });
   });
 
-  document.querySelectorAll(".mark-task-as-complete-btn").forEach(markCompleteBtn => {
-    markCompleteBtn.addEventListener('click', markTaskAsComplete);
+  document.querySelectorAll(".mark-task-as-complete-btn").forEach((markCompleteBtn, index) => {
+    markCompleteBtn.addEventListener('click', () => {
+      markTaskAsComplete(index);
+    });
   });
 }

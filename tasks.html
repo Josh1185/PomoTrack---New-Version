@@ -4,12 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/general-styles.css">
+  <link rel="stylesheet" href="styles/modal-styles.css">
   <link rel="stylesheet" href="styles/nav-styles.css">
   <link rel="stylesheet" href="styles/tasks-page-styles.css">
   <link rel="stylesheet" href="styles/task-styles.css">
   <title>PomoTrack - Tasks</title>
 </head>
 <body>
+
+  <div class="modal-wrapper">
+    <div class="modal">
+      <h2 class="modal-header">Are you sure you would like to delete "CSC229 HW"?</h2>
+      <div class="modal-controls">
+        <button class="confirm-btn">Confirm</button>
+        <button class="cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <header>
     <div class="header-left">
@@ -188,6 +199,7 @@
     </div>
   </div>
 
+  <script type="module" src="scripts/general/modal.js"></script>
   <script type="module" src="scripts/tasks/task-storage.js"></script>
   <script type="module" src="scripts/tasks/task-elements.js"></script>
   <script type="module" src="scripts/tasks/task-rendering.js"></script>

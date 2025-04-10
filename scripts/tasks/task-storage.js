@@ -1,23 +1,4 @@
-export let taskList = JSON.parse(localStorage.getItem('taskList')) || [
-  {
-    id: `csc229-hw-45`,
-    title: `CSC229 HW`,
-    description: `Algorithm Analysis, Big O Notation`,
-    approxPomodoros: 4,
-    actualPomodoros: 2,
-    isCurrentTask: false,
-    creationDate: Date.now()
-  },
-  {
-    id: `bcs378-hw-46`,
-    title: `BCS378 HW`,
-    description: `Cryptography, RSA Algorithm`,
-    approxPomodoros: 6,
-    actualPomodoros: 1,
-    isCurrentTask: false,
-    creationDate: Date.now()
-  }
-];
+export let taskList = JSON.parse(localStorage.getItem('taskList')) || [];
 
 export let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 export let currentTask = JSON.parse(localStorage.getItem('currentTask')) || {};

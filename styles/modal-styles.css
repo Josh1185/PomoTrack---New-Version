@@ -1,0 +1,52 @@
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-1);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--text-color);
+}
+
+.modal-header span {
+  color: var(--accent-color);
+}
+
+.modal-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-controls button {
+  background-color: var(--color-2);
+  border: none;
+  color: var(--text-color);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-controls button:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
