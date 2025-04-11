@@ -1,7 +1,7 @@
 import { taskList, currentTask, saveToStorage, getTaskIdCounter, incrementTaskIdCounter, insertCurrentTaskData, removeCurrentTaskData } from './task-storage.js';
 import { renderTaskList, renderCurrentTask } from './task-rendering.js';
 import { taskTitleInput, taskDescInput, taskApproxPomodorosInput, addTaskForm, addTaskBtn } from './task-elements.js';
-import { modalToggle, modalText, confirmBtn, cancelBtn, cancelBtnHandler, modalPopUp, editTaskForm, cancelEditBtn, confirmEditBtn, editApproxPomodorosInput, editTaskDescInput, editTaskTitleInput } from '../general/modal.js';
+import { modalToggle, modalText, confirmBtn, cancelBtn, modalPopUp, editTaskForm, cancelEditBtn, confirmEditBtn, editApproxPomodorosInput, editTaskDescInput, editTaskTitleInput } from '../general/modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTaskList();
@@ -57,17 +57,15 @@ export function deleteTask(id) {
       modalToggle.style.display = 'none';
       modalPopUp.style.display = 'none';
       taskToDeleteIndex = null;
-
-      confirmBtn.removeEventListener('click', confirmDelete);
     }
   }
 
-  confirmBtn.addEventListener('click', confirmDelete)
+  confirmBtn.addEventListener('click', confirmDelete, { once: true});
   cancelBtn.addEventListener('click', () => {
     taskToDeleteIndex = null;
-    cancelBtnHandler();
-    confirmBtn.removeEventListener('click', confirmDelete);
-  });
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+  }, { once: true});
 }
 
 export function editTask(id) {
@@ -75,7 +73,7 @@ export function editTask(id) {
   
   modalToggle.style.display = 'block';
   editTaskForm.style.display = 'block';
-  editTaskForm.addEventListener('submit', e => e.preventDefault());
+  editTaskForm.addEventListener('submit', e => e.preventDefault(), { once: true});
 
   editTaskTitleInput.value = taskList[index].title;
   editTaskDescInput.value = taskList[index].description;
@@ -99,20 +97,16 @@ export function editTask(id) {
       modalToggle.style.display = 'none';
       editTaskForm.style.display = 'none';
 
-      confirmEditBtn.removeEventListener('click', confirmEdit);
-      editTaskForm.removeEventListener('submit', e => e.preventDefault());
     } else {
       alert('Please fill in all fields correctly.');
     }
   }
 
-  confirmEditBtn.addEventListener('click', confirmEdit);
+  confirmEditBtn.addEventListener('click', confirmEdit, { once: true});
   cancelEditBtn.addEventListener('click', () => {
     modalToggle.style.display = 'none';
     editTaskForm.style.display = 'none';
-    confirmEditBtn.removeEventListener('click', confirmEdit);
-    editTaskForm.removeEventListener('submit', e => e.preventDefault());
-  });
+  }, { once: true});
 }
 
 export function markTaskAsComplete(id) {
@@ -126,11 +120,12 @@ export function markTaskAsComplete(id) {
     // Code to mark task as complete
     modalToggle.style.display = 'none';
     modalPopUp.style.display = 'none';
-  });
+  }, { once: true});
 
   cancelBtn.addEventListener('click', () => {
-    cancelBtnHandler();
-  });
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+  }, { once: true});
 }
 
 export function markTaskAsCurrent(id) {
@@ -140,11 +135,12 @@ export function markTaskAsCurrent(id) {
 
   const index = taskList.findIndex(task => task.id === id);
   modalText.innerHTML = `Are you sure you want to pin "<span>${taskList[index].title}</span>" as your current task?`;
-  confirmBtn.addEventListener('click', confirmTaskPinnedAsCurrent);
+  confirmBtn.addEventListener('click', confirmTaskPinnedAsCurrent, { once: true});
 
   cancelBtn.addEventListener('click', () => {
-    cancelBtnHandler();
-  });
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+  }, { once: true});
 
   function confirmTaskPinnedAsCurrent() {
 
@@ -183,7 +179,6 @@ export function markTaskAsCurrent(id) {
 
     modalToggle.style.display = 'none';
     modalPopUp.style.display = 'none';
-    confirmBtn.removeEventListener('click', confirmTaskPinnedAsCurrent);
   }
 }
 
@@ -192,11 +187,12 @@ export function unpinCurrentTask() {
   modalPopUp.style.display = 'block';
 
   modalText.innerHTML = `Are you sure you want to unpin "<span>${currentTask.title}</span>" from your current task slot?`;
-  confirmBtn.addEventListener('click', confirmUnpinCurrentTask);
+  confirmBtn.addEventListener('click', confirmUnpinCurrentTask, { once: true});
 
   cancelBtn.addEventListener('click', () => {
-    cancelBtnHandler();
-  });
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+  }, { once: true});
 
   function confirmUnpinCurrentTask() {
 
@@ -217,14 +213,13 @@ export function unpinCurrentTask() {
   
     modalToggle.style.display = 'none';
     modalPopUp.style.display = 'none';
-    confirmBtn.removeEventListener('click', confirmUnpinCurrentTask);
   }
 }
 
 export function editCurrentTask() {
   modalToggle.style.display = 'block';
   editTaskForm.style.display = 'block';
-  editTaskForm.addEventListener('submit', e => e.preventDefault());
+  editTaskForm.addEventListener('submit', e => e.preventDefault(), { once: true});
 
   editTaskTitleInput.value = currentTask.title;
   editTaskDescInput.value = currentTask.description;
@@ -246,20 +241,16 @@ export function editCurrentTask() {
       modalToggle.style.display = 'none';
       editTaskForm.style.display = 'none';
 
-      confirmEditBtn.removeEventListener('click', confirmEditCurrentTask);
-      editTaskForm.removeEventListener('submit', e => e.preventDefault());
     } else {
       alert('Please fill in all fields correctly.');
     }
   }
 
-  confirmEditBtn.addEventListener('click', confirmEditCurrentTask);
+  confirmEditBtn.addEventListener('click', confirmEditCurrentTask, { once: true});
   cancelEditBtn.addEventListener('click', () => {
     modalToggle.style.display = 'none';
     editTaskForm.style.display = 'none';
-    confirmEditBtn.removeEventListener('click', confirmEditCurrentTask);
-    editTaskForm.removeEventListener('submit', e => e.preventDefault());
-  });
+  }, { once: true});
 }
 
 export function deleteCurrentTask() {
@@ -267,10 +258,11 @@ export function deleteCurrentTask() {
   modalPopUp.style.display = 'block';
 
   modalText.innerHTML = `Are you sure you want to delete "<span>${currentTask.title}</span>"?`;
-  confirmBtn.addEventListener('click', confirmDeleteCurrentTask);
+  confirmBtn.addEventListener('click', confirmDeleteCurrentTask, { once: true});
 
   cancelBtn.addEventListener('click', () => {
-    cancelBtnHandler();
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
   });
 
   function confirmDeleteCurrentTask() {
@@ -281,7 +273,6 @@ export function deleteCurrentTask() {
 
     modalToggle.style.display = 'none';
     modalPopUp.style.display = 'none';
-    confirmBtn.removeEventListener('click', confirmDeleteCurrentTask);
   }
 }
 
@@ -294,9 +285,10 @@ export function markCurrentTaskAsComplete() {
     // Code to mark task as complete
     modalToggle.style.display = 'none';
     modalPopUp.style.display = 'none';
-  });
+  }, { once: true});
 
   cancelBtn.addEventListener('click', () => {
-    cancelBtnHandler();
-  });
+    modalToggle.style.display = 'none';
+    modalPopUp.style.display = 'none';
+  }, { once: true});
 }

@@ -9,10 +9,3 @@ export const cancelEditBtn = document.querySelector('.cancel-edit-btn');
 export const editTaskTitleInput = document.querySelector('.edit-task-title-input');
 export const editTaskDescInput = document.querySelector('.edit-task-desc-input');
 export const editApproxPomodorosInput = document.querySelector('.edit-task-approx-pomodoros-input');
-
-export function cancelBtnHandler() {
-  modalToggle.style.display = 'none';
-  modalPopUp.style.display = 'none';
-  editTaskForm.style.display = 'none';
-  cancelBtn.removeEventListener('click', cancelBtnHandler);
-}
